@@ -2,7 +2,7 @@ import React, { useState} from 'react';
  import { FlatList, StyleSheet, Button, Text, TextInput, View, ScrollView } from 'react-native';
 const styles = StyleSheet.create({
   textInput: {
-    borderWidth: 1, borderRadius: 10, height: 40, padding: 10
+    borderWidth: 1, borderRadius: 10, padding: 5
   },
   container: {
     margin:50, flex: 1, justifyContent: "center", alignItems: "center"
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
    return (
      <View /*style={styles.container}*/>
       <View>
-       <Text>
+       <Text style={{justifyContent: "center"}}>
          {text}
        </Text>
        <TextInput style={styles.textInput} placeholder="Type to change text" defaultValue={text} onChangeText={(newText) => setText(newText)}/>

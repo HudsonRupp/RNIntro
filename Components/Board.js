@@ -16,21 +16,35 @@ const styles = StyleSheet.create({
 const Board = (props) => {
     const [squares, setSquares] = useState(Array(9).fill(" "))
     const [history, setHistory] = useState(Array());
-    const [current, setCurrent] = useState(1)
+    const [current, setCurrent] = useState(-1)
     const [xNext, setxNext] = useState(true);
 
     function handleClick(i) {
-      const s = squares.slice(); 
-      //.slice() = shallow copy ()
-      s[i] = xNext ? "X" : "O";
-      setSquares(s);
-      setxNext(!xNext);
-      setHistory(history.concat([s]))
-      setCurrent(history.length-2)
+      //console.log("C:" + current + "LEN:" + history.length)
 
-      //console.log("HIST" + history[history.length-2])
+      //can only play if up to date
+      if (current==history.length-1) {
+        const s = squares.slice(); 
+        //.slice() = shallow copy ()
+        s[i] = xNext ? "X" : "O";
+        setSquares(s);
+        setxNext(!xNext);
+        setHistory(history.concat([s]))
+        setCurrent(current+1);
+        //console.log("HIST" + history[history.length-1])
+      }
     }
     function handleHist(forward) {
+      if (history.length == 1 || history.length == 0) {
+        return
+      }
+      //setState is NOT immedate, use temp var and setState at end
+      let next = forward ? current+1 : current-1
+      //bound next to 0,history.length     
+      next = Math.max(0, Math.min(next, history.length-1))
+      setSquares(history[next])
+      //console.log("C:" + next + "LEN:" + history.length)
+      setCurrent(next)
     }
     function getStatus() {
       //console.log(squares)
@@ -58,7 +72,7 @@ const Board = (props) => {
       return <Text>GAME OVER: TIE</Text>
     }
     return (
-      <View>
+      <View style={{alignItems: "center"}}>
         {getStatus()}
         <View style={{flexDirection: "row"}}>
           <Square value={squares[0]} onClick={() => handleClick(0)}/>
@@ -75,7 +89,7 @@ const Board = (props) => {
           <Square value={squares[7]} onClick={() => handleClick(7)}/>
           <Square value={squares[8]} onClick={() => handleClick(8)}/>
         </View>
-        <Text>History</Text>
+        <Text style={{alignSelf:'center'}}>History (must be up to date to play)</Text>
         <View style={{flexDirection: "row"}}>
           <Button title = "Go Back" onPress={() => handleHist(false)}/>
           <Button title = "Go Forward" onPress={() => handleHist(true)}/>
