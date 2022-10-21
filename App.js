@@ -3,7 +3,9 @@ import React, {Component, useState} from 'react';
 import {Alert, FlatList, StyleSheet, Button, Text, TextInput, View, ScrollView } from 'react-native';
 import Board from './Components/Board';
 import Demo from  './Components/Demo';
-import { WebView } from 'react-native-webview'
+import Calculator from './Components/Calculator';
+import Web from './Components/Web'
+
 const styles = StyleSheet.create({
   container: {
     padding: 20,
@@ -24,46 +26,37 @@ const styles = StyleSheet.create({
 class mainApp extends Component {
   render() {
     return(
+      
       <ScrollView>
-        <View style={{borderBottomWidth:1, marginHorizontal: 70}}>
-          <Text style={styles.header}>
-            Tic-Tac-Toe
-          </Text>
-        </View>
-        <View style={styles.container}>
+        <Wrapper header="Tic-Tac-Toe">
           <Board/>
-        </View>
-        <View style={{borderBottomWidth:1, marginHorizontal: 70}}>
-          <Text style={styles.header}>
-            Demo
-          </Text>
-        </View>
-        <View style={styles.container}>
+        </Wrapper>
+        <Wrapper header="Demo">
           <Demo/>
-        </View>
-        <View style={{borderBottomWidth:1, marginHorizontal: 70}}>
-          <Text style={styles.header}>
-            WebView
-          </Text>
-        </View>
-        <View style={{marginBottom:50}}>
+        </Wrapper>
+        <Wrapper childStyle={{marginBottom:50}} header="WebView">
           <Web/>
-        </View>
-        
+        </Wrapper>
       </ScrollView>
     )
   }
 }
-class Web extends Component {
-  render() {
 
-    return (
-      <View style={{borderWidth: 1,borderRadius:5, flex: 1, height: 300, margin:20, padding:20, marginTop: 10}}>
-        <WebView source={{uri: "http://google.com" }}/>
-      </View>
-    )
-  }
+const Wrapper = (props) => {
+  return(
+    <View>
+      <View style={{borderBottomWidth:1, marginHorizontal: 70}}>
+          <Text style={styles.header}>
+            {props.header}
+          </Text>
+        </View>
+        {/* if child style prop is set, use that, */}
+        <View style={(props.childStyle === undefined) ? styles.container : props.childStyle}>
+          {props.children}
+        </View>
+    </View>
+  );
 }
 
  
- export default mainApp;
+export default mainApp;
