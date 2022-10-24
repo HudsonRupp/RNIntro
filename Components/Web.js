@@ -16,14 +16,41 @@ class Web extends Component {
         super()
         
         this.state = {
-            url: "http://google.com"
+            url: "http://google.com",
+            html: false
         }
     }
-
-    changeUrl(url) {
-        console.log(url)
+    injectHtml() {
         this.setState({
-            url: url
+            html: true,
+            url: `
+            <h1>FORM</h1>
+            <br>
+            <form id="form" onsubmit="send()">
+                <p>username</p>
+                <input type="text" id="username"> <br>
+                <p>password</p>
+                <input type="text" id="password"> <br>
+                <input type="submit" value="submit">
+            </form>
+            <script>
+                function send(){
+                    window.ReactNativeWebView.postMessage(document.getElementById("username").value + " " + document.getElementById("password").value)
+                }
+            </script>
+            `
+            
+            
+        })
+    }
+    changeUrl(url) {
+        if (url == "HTML") {
+            this.injectHtml()
+            return
+        }
+        this.setState({
+            url: url,
+            html: false
         })
     }
     render() {
@@ -31,11 +58,12 @@ class Web extends Component {
       return (
         <View>
             <View style={{borderWidth: 1,borderRadius:5, flex: 1, height: 300, marginTop:20, marginHorizontal: 20, padding:20, marginTop: 10}}>
-                <WebView source={{uri: this.state.url }}/>
+                <WebView onMessage={(event) => {alert(event.nativeEvent.data);}} source={this.state.html ? {html: this.state.url} : {uri: this.state.url }}/>
             </View>
             <View style={{alignItems: "center", marginHorizontal: 20 }}>
-                <NavBar current={this.state.url} onChange={(i) => this.changeUrl(i)}/>
+                <NavBar current={this.state.html ? "Custom HTML" : this.state.url} onChange={(i) => this.changeUrl(i)}/>
             </View>
+            
         </View>
       )
     }
@@ -48,6 +76,7 @@ const NavBar = (props) => {
                 <TextInput style={styles.textInput} defaultValue={props.current} autoCorrect={false} autoCapitalize={false} onSubmitEditing={(e) => {props.onChange(e.nativeEvent.text)}}/>
             </View>
             <ScrollView horizontal = {true} style={{flex: 1}} >
+                <NavButton onChange={(i) => props.onChange(i)} title="CustomHTML" url="HTML"/>
                 <NavButton onChange={(i) => props.onChange(i)} title="Facebook" url="http://facebook.com"/>
                 <NavButton onChange={(i) => props.onChange(i)} title="Google" url="http://google.com"/>
                 <NavButton onChange={(i) => props.onChange(i)} title="Twitter" url="http://twitter.com"/>
