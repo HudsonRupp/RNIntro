@@ -1,6 +1,6 @@
 
 import React, {Component, useState} from 'react';
-import { Alert, FlatList, StyleSheet, Button, Text, TextInput, View, ScrollView } from 'react-native';
+import { Alert, Image, FlatList, StyleSheet, Button, Text, TextInput, View, ScrollView } from 'react-native';
 import { WebView } from 'react-native-webview'
 
 //nav + file upload?
@@ -17,7 +17,15 @@ class Web extends Component {
         
         this.state = {
             url: "http://google.com",
-            html: false
+            html: false,
+            imgUri: "https://upload.wikimedia.org/wikipedia/commons/a/a2/1GB_a_tope_266.jpg",
+        }
+    }
+    webview = null;
+    injectJS() {
+        if (this.webview) {
+            console.log(this.webview)
+            this.webview.injectJavaScript("document.body.style.background = '#" + (Math.floor(Math.random()*1000000)) + "'");
         }
     }
     injectHtml() {
@@ -31,11 +39,12 @@ class Web extends Component {
                 <input type="text" id="username"> <br>
                 <p>password</p>
                 <input type="text" id="password"> <br>
+                <input type="file" id="file"> <br>
                 <input type="submit" value="submit">
             </form>
             <script>
                 function send(){
-                    window.ReactNativeWebView.postMessage(document.getElementById("username").value + " " + document.getElementById("password").value)
+                    window.ReactNativeWebView.postMessage(document.getElementById("file").value + "|" + document.getElementById("username").value + " " + document.getElementById("password").value)
                 }
             </script>
             `
@@ -53,17 +62,28 @@ class Web extends Component {
             html: false
         })
     }
+    handleMessage(event) {
+        data = event.nativeEvent.data
+        fileUri = data.split('|')[0]
+        //this.state.imgUri = fileUri
+        console.log(this.state.imgUri)
+        alert("Form Data: " + data.split("|")[1] + "\nImg: " + fileUri);
+    }
     render() {
-  
       return (
+    
         <View>
             <View style={{borderWidth: 1,borderRadius:5, flex: 1, height: 300, marginTop:20, marginHorizontal: 20, padding:20, marginTop: 10}}>
-                <WebView onMessage={(event) => {alert(event.nativeEvent.data);}} source={this.state.html ? {html: this.state.url} : {uri: this.state.url }}/>
+                <WebView  ref={(c) => (this.webview = c)} onMessage={(event) => {this.handleMessage(event)}} source={this.state.html ? {html: this.state.url} : {uri: this.state.url }}/>
             </View>
             <View style={{alignItems: "center", marginHorizontal: 20 }}>
-                <NavBar current={this.state.html ? "Custom HTML" : this.state.url} onChange={(i) => this.changeUrl(i)}/>
+                <NavBar current={this.state.html ? "Custom HTML" : this.state.url} 
+                injectJS={() => this.injectJS()} 
+                onChange={(i) => this.changeUrl(i)}/>
             </View>
-            
+            <View style={{alignItems: 'center' }}>
+                {/*<Image style={{borderWidth: 1, height: 100, width: 100}} source={{uri: this.state.imgUri}}/>/*/}
+            </View>
         </View>
       )
     }
@@ -83,6 +103,7 @@ const NavBar = (props) => {
                 <NavButton onChange={(i) => props.onChange(i)} title="YouTube" url="http://youtube.com"/>
                 <NavButton onChange={(i) => props.onChange(i)} title="Instagram" url="http://instagram.com"/>
             </ScrollView>
+            <Button onPress={() => props.injectJS()} title="change color"/>
         </View>
     )
 }
