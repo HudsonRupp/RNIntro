@@ -1,32 +1,13 @@
 
 import React, {Component, useState} from 'react';
-import {Alert, FlatList, StyleSheet, Button, Text, TextInput, View, ScrollView } from 'react-native';
+import {StyleSheet, Text, View, ScrollView } from 'react-native';
 import Board from './Components/Board';
 import Demo from  './Components/Demo';
-import Calculator from './Components/Calculator';
 import Web from './Components/Web'
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    marginTop: 10,
-    textAlign: "center",
-    alignItems: "center",
-    margin:5
-  },
-  header: {
-    fontSize: 40,
-    marginTop: 30, 
-    textAlign: 'center', 
-    padding:0,
-  }
-})
-
 
 class mainApp extends Component {
   render() {
     return(
-      
       <ScrollView>
         <Wrapper header="Tic-Tac-Toe">
           <Board/>
@@ -34,7 +15,7 @@ class mainApp extends Component {
         <Wrapper header="Demo">
           <Demo/>
         </Wrapper>
-        <Wrapper childStyle={{marginBottom:50}} header="WebView">
+        <Wrapper childStyle={styles.web} header="WebView">
           <Web/>
         </Wrapper>
       </ScrollView>
@@ -57,6 +38,26 @@ const Wrapper = (props) => {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    marginTop: 10,
+    textAlign: "center",
+    alignItems: "center",
+    margin:5
+  },
+  header: {
+    fontSize: 40,
+    marginTop: 30, 
+    textAlign: 'center', 
+    padding:0,
+  },
+  web: {
+    marginBottom:50
+  }
+})
+
 
  
 export default mainApp;
