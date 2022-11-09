@@ -67,20 +67,11 @@ class Web extends Component {
       <View>
         <View style={styles.webviewContainer}>
           <WebView
-            ref={c => (this.webview = c)}
+            //ref={c => (this.props.webview = c)}
             onMessage={event => {
-              this.handleMessage(event);
+              //this.props.handleMessage(event);
             }}
-            source={
-              this.state.html ? {html: this.state.url} : {uri: this.state.url}
-            }
-          />
-        </View>
-        <View style={styles.groupedNavContainer}>
-          <GroupedNavigation
-            current={this.state.html ? 'Custom HTML' : this.state.url}
-            injectJS={() => this.injectJS()}
-            onChange={i => this.changeUrl(i)}
+            source={{uri: this.props.source}}
           />
         </View>
       </View>
