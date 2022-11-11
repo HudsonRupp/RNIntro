@@ -1,65 +1,14 @@
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {WebView} from 'react-native-webview';
-import GroupedNavigation from './GroupedNavigation';
 
 class Web extends Component {
   constructor() {
     super();
-    this.state = {
-      url: 'http://google.com',
-      html: false,
-      imgUri:
-        'https://upload.wikimedia.org/wikipedia/commons/a/a2/1GB_a_tope_266.jpg',
-    };
-  }
-  //to hold webview reference
-  webview = null;
-  injectJS() {
-    if (this.webview) {
-      this.webview.injectJavaScript(
-        "document.body.style.background = '#" +
-          Math.floor(Math.random() * 1000000) +
-          "'",
-      );
-    }
-  }
-  injectHtml() {
-    this.setState({
-      html: true,
-      url: `
-            <h1>FORM</h1>
-            <br>
-            <form id="form" onsubmit="send()">
-                <p>username</p>
-                <input type="text" id="username"> <br>
-                <p>password</p>
-                <input type="text" id="password"> <br>
-                <input type="file" id="file"> <br>
-                <input type="submit" value="submit">
-            </form>
-            <script>
-                function send(){
-                    window.ReactNativeWebView.postMessage(document.getElementById("file").value + "|" + document.getElementById("username").value + " " + document.getElementById("password").value)
-                }
-            </script>
-            `,
-    });
-  }
-  changeUrl(url) {
-    if (url == 'HTML') {
-      this.injectHtml();
-      return;
-    }
-    this.setState({
-      url: url,
-      html: false,
-    });
   }
   handleMessage(event) {
     data = event.nativeEvent.data;
     fileUri = data.split('|')[0];
-    console.log(this.state.imgUri);
     alert('Form Data: ' + data.split('|')[1] + '\nImg: ' + fileUri);
   }
   render() {
@@ -67,11 +16,14 @@ class Web extends Component {
       <View>
         <View style={styles.webviewContainer}>
           <WebView
-            //ref={c => (this.props.webview = c)}
             onMessage={event => {
-              //this.props.handleMessage(event);
+              this.handleMessage(event);
             }}
-            source={{uri: this.props.source}}
+            source={
+              this.props.html
+                ? {html: this.props.source}
+                : {uri: this.props.source}
+            }
           />
         </View>
       </View>
@@ -89,9 +41,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     flex: 1,
-    height: 300,
+    height: 550,
     marginTop: 20,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     padding: 20,
     marginTop: 10,
   },

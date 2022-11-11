@@ -18,8 +18,6 @@ class mainApp extends Component {
       sgVisible: false,
     };
   }
-  //to hold webview reference
-  webview = null;
   switchGroup(group) {
     const links = {
       misc: {
@@ -53,15 +51,6 @@ class mainApp extends Component {
       });
     }
   }
-  injectJS() {
-    if (this.webview) {
-      this.webview.injectJavaScript(
-        "document.body.style.background = '#" +
-          Math.floor(Math.random() * 1000000) +
-          "'",
-      );
-    }
-  }
   injectHtml() {
     this.setState({
       html: true,
@@ -85,7 +74,6 @@ class mainApp extends Component {
     });
   }
   changeUrl(url) {
-    console.log(url);
     if (url == 'HTML') {
       this.injectHtml();
       return;
@@ -95,28 +83,19 @@ class mainApp extends Component {
       html: false,
     });
   }
-  handleMessage(event) {
-    data = event.nativeEvent.data;
-    fileUri = data.split('|')[0];
-    console.log(this.state.imgUri);
-    alert('Form Data: ' + data.split('|')[1] + '\nImg: ' + fileUri);
-  }
-
   render() {
     return (
-      <View style={{flexDirection: 'column', flex: 1}}>
-        <View style={{flex: 5}}>
+      <View style={styles.main}>
+        <View style={styles.scrollview}>
           <ScrollView>
+            <Wrapper childStyle={styles.web} header="WebView">
+              <Web html={this.state.html} source={this.state.url} />
+            </Wrapper>
             <Wrapper header="Tic-Tac-Toe">
               <Board />
             </Wrapper>
-            <Wrapper header="Demo">
-              <Demo />
-            </Wrapper>
-            <Wrapper childStyle={styles.web} header="WebView">
-              <Web source={this.state.url} />
-            </Wrapper>
           </ScrollView>
+          {/* Overlap submenu over scrollview */}
           <GroupedNavigationSub
             data={this.state.data}
             visibility={this.state.sgVisible}
@@ -124,11 +103,12 @@ class mainApp extends Component {
           />
         </View>
         <GroupedNavigation
-          source={this.state.html ? 'Custom HTML' : this.state.url}
+          source={this.state.url}
           injectJS={() => this.injectJS()}
           onChange={i => this.changeUrl(i)}
           current={this.state.url}
           switchGroup={group => this.switchGroup(group)}
+          htmlActive={this.state.html}
         />
       </View>
     );
@@ -138,7 +118,7 @@ class mainApp extends Component {
 const Wrapper = props => {
   return (
     <View>
-      <View style={{borderBottomWidth: 1, marginHorizontal: 70}}>
+      <View style={styles.headerUnderline}>
         <Text style={styles.header}>{props.header}</Text>
       </View>
       {/* if child style prop is set, use that, */}
@@ -153,6 +133,17 @@ const Wrapper = props => {
 };
 
 const styles = StyleSheet.create({
+  main: {
+    flexDirection: 'column',
+    flex: 1,
+  },
+  scrollview: {
+    flex: 5,
+  },
+  headerUnderline: {
+    borderBottomWidth: 1,
+    marginHorizontal: 70,
+  },
   container: {
     padding: 20,
     marginTop: 10,

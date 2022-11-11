@@ -1,13 +1,5 @@
 import React, {Component, useState} from 'react';
-import {
-  StyleSheet,
-  Button,
-  Text,
-  TextInput,
-  View,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import {StyleSheet, View, Dimensions} from 'react-native';
 import NavButton from './NavButton';
 class GroupedNavigationSub extends Component {
   constructor(props) {
@@ -28,7 +20,6 @@ class GroupedNavigationSub extends Component {
         />,
       );
     }
-    console.log(this.props.visibility);
     return (
       <View style={styles.subGroup}>
         {this.props.visibility && <View>{datalist}</View>}
