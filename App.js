@@ -12,8 +12,6 @@ class mainApp extends Component {
     this.state = {
       url: 'http://google.com',
       html: false,
-      imgUri:
-        'https://upload.wikimedia.org/wikipedia/commons/a/a2/1GB_a_tope_266.jpg',
       data: {},
       sgVisible: false,
     };

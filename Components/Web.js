@@ -3,8 +3,8 @@ import {StyleSheet, View} from 'react-native';
 import {WebView} from 'react-native-webview';
 
 class Web extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
   handleMessage(event) {
     data = event.nativeEvent.data;

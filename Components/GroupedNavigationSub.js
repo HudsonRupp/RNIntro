@@ -1,13 +1,9 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import NavButton from './NavButton';
 class GroupedNavigationSub extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      visible: true,
-      current: '',
-    };
   }
   render() {
     datalist = [];
@@ -17,6 +13,7 @@ class GroupedNavigationSub extends Component {
           title={title}
           url={url}
           onChange={url => this.props.changeBrowser(url)}
+          key={title}
         />,
       );
     }
