@@ -6,6 +6,12 @@ const Board = props => {
   const [current, setCurrent] = useState(-1);
   const [xNext, setxNext] = useState(true);
 
+  //# is a placeholder for player
+  const gameOverMessage = "GAME OVER: # WINS";
+  const playerTurnMessage = "Player Turn: #";
+  const tieMessage = "GAME OVER: TIE";
+  const labelMessage = "History (must be up to date to play)"
+
   function handleClick(i) {
     //can only add moves if up to date
     if (current == history.length - 1) {
@@ -46,15 +52,15 @@ const Board = props => {
         squares[a] == squares[b] &&
         squares[a] == squares[c]
       ) {
-        return <Text>GAME OVER: {squares[lines[i][0]]} WINS</Text>;
+        return <Text>{gameOverMessage.replace('#', squares[lines[i][0]])}</Text>;
       }
     }
     for (let i = 0; i < squares.length; i++) {
       if (squares[i] == ' ') {
-        return <Text>Player Turn: {xNext ? 'X' : 'O'}</Text>;
+        return <Text>{playerTurnMessage.replace("#", xNext ? 'X' : 'O')}</Text>;
       }
     }
-    return <Text>GAME OVER: TIE</Text>;
+    return <Text>{tieMessage}</Text>;
   }
   return (
     <View style={styles.board}>
@@ -74,7 +80,7 @@ const Board = props => {
         <Square value={squares[7]} onClick={() => handleClick(7)} />
         <Square value={squares[8]} onClick={() => handleClick(8)} />
       </View>
-      <Text style={styles.labelText}>History (must be up to date to play)</Text>
+      <Text style={styles.labelText}>{labelMessage}</Text>
       <View style={styles.boardRow}>
         <Button title="Go Back" onPress={() => handleHist(false)} />
         <Button title="Go Forward" onPress={() => handleHist(true)} />

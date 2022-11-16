@@ -1,29 +1,34 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, TextInput, View, ScrollView} from 'react-native';
 import NavButton from './NavButton';
+import Icons from '../Assets/icons';
 
 const GroupedNavigation = props => {
+    const [buttonActive, setButtonActive] = useState(null);
   return (
     <View style={styles.main}>
       <View></View>
       <ScrollView horizontal={true}>
         <NavButton
-          onChange={i => props.switchGroup(i)}
+          onChange={i => {props.switchGroup(i); setButtonActive(0)}}
           title="Social Media"
           url="socialMedia"
-          file={require('./icons/chat.png')}
+          file={Icons.chat}
+          active = {buttonActive == 0 && props.sgActive}
         />
         <NavButton
-          onChange={i => props.switchGroup(i)}
+          onChange={i => {props.switchGroup(i); setButtonActive(1)}}
           title="MISC"
           url="misc"
-          file={require('./icons/threedots.png')}
+          file={Icons.threedots}
+          active = {buttonActive == 1 && props.sgActive}
         />
         <NavButton
-          onChange={i => props.switchGroup(i)}
+          onChange={i => {props.switchGroup(i); setButtonActive(2)}}
           title="Search Engines"
           url="search"
-          file={require('./icons/search.png')}
+          file={Icons.search}
+          active = {buttonActive == 2 && props.sgActive}
         />
       </ScrollView>
       <TextInput

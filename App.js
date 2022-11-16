@@ -1,7 +1,6 @@
 import React, {Component, useState} from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import Board from './Components/Board';
-import Demo from './Components/Demo';
 import Web from './Components/Web';
 import GroupedNavigation from './Components/GroupedNavigation';
 import GroupedNavigationSub from './Components/GroupedNavigationSub';
@@ -107,6 +106,7 @@ class mainApp extends Component {
           current={this.state.url}
           switchGroup={group => this.switchGroup(group)}
           htmlActive={this.state.html}
+          sgActive={this.state.sgVisible}
         />
       </View>
     );

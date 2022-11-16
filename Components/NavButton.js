@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 
 const NavButton = props => {
@@ -7,7 +7,7 @@ const NavButton = props => {
       onPress={() => {
         props.onChange(props.url);
       }}
-      style={styles.navButton}>
+      style={props.active ? styles.navButtonActive : styles.navButton}>
       {props.file ? (
         <Image source={props.file} style={styles.img} />
       ) : (
@@ -21,6 +21,13 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#FFFFFF'
+  },
+  navButtonActive: {
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor:'#ededed'
   },
   img: {
     height: 60,
