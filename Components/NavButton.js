@@ -1,15 +1,19 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
-
+import Icon from 'react-native-vector-icons/FontAwesome5';
 const NavButton = props => {
   return (
     <TouchableOpacity
       onPress={() => {
         props.onChange(props.url);
       }}
-      style={props.active ? styles.navButtonActive : styles.navButton}>
-      {props.file ? (
-        <Image source={props.file} style={styles.img} />
+      style={styles.navButton}>
+      {props.icon ? (
+        <Icon
+          name={props.icon}
+          size={30}
+          color={props.active ? '#0b02f7' : '#000000'}
+        />
       ) : (
         <Text>{props.title}</Text>
       )}
@@ -21,13 +25,8 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF'
-  },
-  navButtonActive: {
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor:'#ededed'
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 30,
   },
   img: {
     height: 60,
@@ -35,4 +34,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
 });
+
+/*<Image source={props.file} style={styles.img} />*/
 export default NavButton;

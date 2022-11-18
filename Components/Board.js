@@ -7,10 +7,10 @@ const Board = props => {
   const [xNext, setxNext] = useState(true);
 
   //# is a placeholder for player
-  const gameOverMessage = "GAME OVER: # WINS";
-  const playerTurnMessage = "Player Turn: #";
-  const tieMessage = "GAME OVER: TIE";
-  const labelMessage = "History (must be up to date to play)"
+  const gameOverMessage = 'GAME OVER: # WINS';
+  const playerTurnMessage = 'Player Turn: #';
+  const tieMessage = 'GAME OVER: TIE';
+  const labelMessage = 'History (must be up to date to play)';
 
   function handleClick(i) {
     //can only add moves if up to date
@@ -52,12 +52,14 @@ const Board = props => {
         squares[a] == squares[b] &&
         squares[a] == squares[c]
       ) {
-        return <Text>{gameOverMessage.replace('#', squares[lines[i][0]])}</Text>;
+        return (
+          <Text>{gameOverMessage.replace('#', squares[lines[i][0]])}</Text>
+        );
       }
     }
     for (let i = 0; i < squares.length; i++) {
       if (squares[i] == ' ') {
-        return <Text>{playerTurnMessage.replace("#", xNext ? 'X' : 'O')}</Text>;
+        return <Text>{playerTurnMessage.replace('#', xNext ? 'X' : 'O')}</Text>;
       }
     }
     return <Text>{tieMessage}</Text>;
