@@ -15,7 +15,7 @@ const NavButton = props => {
           color={props.active ? '#0b02f7' : '#000000'}
         />
       ) : (
-        <Text>{props.title}</Text>
+        <Text style={styles.text}>{props.title}</Text>
       )}
     </TouchableOpacity>
   );
@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     marginHorizontal: 20,
+  },
+  text: {
+    color: '#000000',
   },
 });
 

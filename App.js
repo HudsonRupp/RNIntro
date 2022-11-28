@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
   main: {
     flexDirection: 'column',
     flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   scrollview: {
     flex: 5,
@@ -154,6 +155,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     textAlign: 'center',
     padding: 0,
+    color: '#000000',
   },
   web: {
     marginBottom: 50,
