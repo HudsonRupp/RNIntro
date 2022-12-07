@@ -10,7 +10,7 @@ import Board from '../Components/Board';
 import Web from '../Components/Web';
 import GroupedNavigation from '../Components/GroupedNavigation';
 import GroupedNavigationSub from '../Components/GroupedNavigationSub';
-
+import LoginScreen from './LoginScreen';
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -22,8 +22,9 @@ class HomeScreen extends Component {
     };
   }
   signOut() {
-    console.log('Signing out');
-    //this.props.changeScreen(<LoginScreen changeScreen={screen => this.changeScreen(screen)}/>)
+    this.props.changeScreen(
+      <LoginScreen changeScreen={screen => this.props.changeScreen(screen)} />,
+    );
   }
   switchGroup(group) {
     const links = {
@@ -107,7 +108,6 @@ class HomeScreen extends Component {
               <Text>Sign Out</Text>
             </TouchableOpacity>
           </ScrollView>
-          {/* Overlap submenu over scrollview */}
           <GroupedNavigationSub
             data={this.state.data}
             visibility={this.state.sgVisible}

@@ -19,7 +19,7 @@ class GroupedNavigationSub extends Component {
     }
     return (
       <View style={styles.subGroup}>
-        {this.props.visibility && <View>{datalist}</View>}
+        {this.props.visibility ? <View>{datalist}</View> : null}
       </View>
     );
   }

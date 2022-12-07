@@ -12,7 +12,6 @@ class mainApp extends Component {
     };
   }
   changeScreen(screen) {
-    console.log(screen);
     this.setState({
       currentScreen: screen,
     });

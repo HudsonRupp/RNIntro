@@ -1,5 +1,14 @@
 import React, {Component, useState} from 'react';
 import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+GoogleSignin.configure({
+  iosClientId:
+    '964028635680-0drlfn4m4cam51657mobi805hc3n0rh2.apps.googleusercontent.com',
+});
+import {
   StyleSheet,
   Text,
   View,
@@ -18,10 +27,21 @@ class LoginScreen extends Component {
     };
   }
 
+  signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log('Done -- ' + userInfo);
+      //this.setState({ userInfo });
+    } catch (error) {
+      console.log(error.code);
+    }
+  };
+
   submit() {
     console.log(this.state.username + ' ' + this.state.password);
     this.props.changeScreen(
-      <HomeScreen changeScreen={screen => this.changeScreen(screen)} />,
+      <HomeScreen changeScreen={screen => this.props.changeScreen(screen)} />,
     );
   }
 
@@ -46,6 +66,12 @@ class LoginScreen extends Component {
         <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
           <Text>SUBMIT</Text>
         </TouchableOpacity>
+        <GoogleSigninButton
+          style={{width: 192, height: 48}}
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Dark}
+          onPress={this.signIn}
+        />
       </View>
     );
   }
