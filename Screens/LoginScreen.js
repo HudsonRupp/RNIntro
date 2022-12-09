@@ -24,41 +24,69 @@ class LoginScreen extends Component {
     this.state = {
       username: '',
       password: '',
+      invalid: false
     };
   }
 
-  signIn = async () => {
+  signInGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       console.log('Done -- ' + userInfo);
       //this.setState({ userInfo });
+      this.props.changeScreen(
+        <HomeScreen username={userInfo.user.name} changeScreen={screen => this.props.changeScreen(screen)} />,
+      );
     } catch (error) {
       console.log(error.code);
     }
   };
 
-  submit() {
-    console.log(this.state.username + ' ' + this.state.password);
-    this.props.changeScreen(
-      <HomeScreen changeScreen={screen => this.props.changeScreen(screen)} />,
-    );
+  async submit() {
+    //external authentication
+    /*
+    const resp = await fetch('auth url', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password
+      })
+    });
+    const json = await resp.json()
+    */
+
+    //Just for testing purposes
+    if (this.state.username == "TestUser" && this.state.password == "password") {
+      this.props.changeScreen(
+        <HomeScreen username = {this.state.username} changeScreen={screen => this.props.changeScreen(screen)} />,
+      );
+    } else {
+      this.setState({
+        invalid: true
+      });
+    }
   }
 
   render() {
     return (
       <View style={styles.main}>
         <Text>LOGIN</Text>
+        {this.state.invalid ? <Text style={styles.errorText}>Incorrect Username/Password</Text> : null}
         <TextInput
           style={styles.textInput}
-          defaultValue="user"
+          placeholder="Username"
           autoCorrect={false}
           autoCapitalize={false}
           onChangeText={usertext => this.setState({username: usertext})}
         />
         <TextInput
           style={styles.textInput}
-          defaultValue="pass"
+          placeholder="Password"
+          secureTextEntry={true}
           autoCorrect={false}
           autoCapitalize={false}
           onChangeText={passtext => this.setState({password: passtext})}
@@ -70,7 +98,7 @@ class LoginScreen extends Component {
           style={{width: 192, height: 48}}
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Dark}
-          onPress={this.signIn}
+          onPress={this.signInGoogle}
         />
       </View>
     );
@@ -101,6 +129,9 @@ const styles = StyleSheet.create({
     padding: 5,
     width: 300,
   },
+  errorText: {
+    color: 'red'
+  }
 });
 
 export default LoginScreen;

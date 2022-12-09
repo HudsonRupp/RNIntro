@@ -22,6 +22,7 @@ class HomeScreen extends Component {
     };
   }
   signOut() {
+    //destroy session if needed
     this.props.changeScreen(
       <LoginScreen changeScreen={screen => this.props.changeScreen(screen)} />,
     );
@@ -96,6 +97,7 @@ class HomeScreen extends Component {
       <View style={styles.main}>
         <View style={styles.scrollview}>
           <ScrollView>
+            <Text style={styles.header}>{"Hello: " + this.props.username}</Text>
             <Wrapper childStyle={styles.web} header="WebView">
               <Web html={this.state.html} source={this.state.url} />
             </Wrapper>
