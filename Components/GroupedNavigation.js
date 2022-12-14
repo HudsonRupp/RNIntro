@@ -17,6 +17,7 @@ const GroupedNavigation = props => {
           url="socialMedia"
           icon="comments"
           active={buttonActive == 0 && props.sgActive}
+          darkMode={props.darkMode}
         />
         <NavButton
           onChange={i => {
@@ -27,6 +28,7 @@ const GroupedNavigation = props => {
           url="misc"
           icon="ellipsis-h"
           active={buttonActive == 1 && props.sgActive}
+          darkMode={props.darkMode}
         />
         <NavButton
           onChange={i => {
@@ -37,10 +39,22 @@ const GroupedNavigation = props => {
           url="search"
           icon="search"
           active={buttonActive == 2 && props.sgActive}
+          darkMode={props.darkMode}
+        />
+        <NavButton
+          onChange={i => {
+            props.switchGroup(i);
+            setButtonActive(3);
+          }}
+          title="Settings"
+          url="settings"
+          icon="cog"
+          active={buttonActive == 3 && props.sgActive}
+          darkMode={props.darkMode}
         />
       </ScrollView>
       <TextInput
-        style={styles.textInput}
+        style={props.darkMode ? styles.textInputDark : styles.textInput}
         defaultValue={props.htmlActive ? '-HTML-' : props.current}
         autoCorrect={false}
         autoCapitalize={false}
@@ -59,6 +73,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     width: 300,
+  },
+  textInputDark: {
+    paddingTop: 5,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5,
+    width: 300,
+    borderColor: "#ffffff",
+    color: "#ffffff"
   },
   main: {
     alignItems: 'center',

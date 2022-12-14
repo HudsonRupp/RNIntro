@@ -65,22 +65,22 @@ const Board = props => {
     return <Text>{tieMessage}</Text>;
   }
   return (
-    <View style={styles.board}>
+    <View style={props.darkMode ? styles.boardDark : styles.board}>
       {getStatus()}
       <View style={styles.boardRow}>
-        <Square value={squares[0]} onClick={() => handleClick(0)} />
-        <Square value={squares[1]} onClick={() => handleClick(1)} />
-        <Square value={squares[2]} onClick={() => handleClick(2)} />
+        <Square darkMode={props.darkMode} value={squares[0]} onClick={() => handleClick(0)} />
+        <Square darkMode={props.darkMode} value={squares[1]} onClick={() => handleClick(1)} />
+        <Square darkMode={props.darkMode} value={squares[2]} onClick={() => handleClick(2)} />
       </View>
       <View style={styles.boardRow}>
-        <Square value={squares[3]} onClick={() => handleClick(3)} />
-        <Square value={squares[4]} onClick={() => handleClick(4)} />
-        <Square value={squares[5]} onClick={() => handleClick(5)} />
+        <Square darkMode={props.darkMode} value={squares[3]} onClick={() => handleClick(3)} />
+        <Square darkMode={props.darkMode} value={squares[4]} onClick={() => handleClick(4)} />
+        <Square darkMode={props.darkMode} value={squares[5]} onClick={() => handleClick(5)} />
       </View>
       <View style={styles.boardRow}>
-        <Square value={squares[6]} onClick={() => handleClick(6)} />
-        <Square value={squares[7]} onClick={() => handleClick(7)} />
-        <Square value={squares[8]} onClick={() => handleClick(8)} />
+        <Square darkMode={props.darkMode} value={squares[6]} onClick={() => handleClick(6)} />
+        <Square darkMode={props.darkMode} value={squares[7]} onClick={() => handleClick(7)} />
+        <Square darkMode={props.darkMode} value={squares[8]} onClick={() => handleClick(8)} />
       </View>
       <Text style={styles.labelText}>{labelMessage}</Text>
       <View style={styles.boardRow}>
@@ -93,7 +93,7 @@ const Board = props => {
 
 const Square = props => {
   return (
-    <View style={styles.square}>
+    <View style={props.darkMode ? styles.squareDark : styles.square}>
       <Button
         onPress={() => {
           props.onClick();
@@ -112,6 +112,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  squareDark: {
+    borderWidth: 1,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: "#FFFFFF"
+  },
   container: {
     margin: 50,
     flex: 1,
@@ -123,6 +131,10 @@ const styles = StyleSheet.create({
   },
   board: {
     alignItems: 'center',
+  },
+  boardDark: {
+    alignItems: 'center',
+    color: "#FFFFFF"
   },
   labelText: {
     alignSelf: 'center',

@@ -6,11 +6,14 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import Board from '../Components/Board';
-import Web from '../Components/Web';
-import GroupedNavigation from '../Components/GroupedNavigation';
-import GroupedNavigationSub from '../Components/GroupedNavigationSub';
-import LoginScreen from './LoginScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Board from '../../Components/Board';
+import Web from '../../Components/Web';
+import GroupedNavigation from '../../Components/GroupedNavigation';
+import GroupedNavigationSub from '../../Components/GroupedNavigationSub';
+import LoginScreen from '../Unauthenticated/LoginScreen';
+import themes from '../../Constants';
+import {storeValue, readValue} from '../../Helpers';
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -19,16 +22,16 @@ class HomeScreen extends Component {
       html: false,
       data: {},
       sgVisible: false,
+      darkMode: false,
     };
-  }
-  signOut() {
-    //destroy session if needed
-    this.props.changeScreen(
-      <LoginScreen changeScreen={screen => this.props.changeScreen(screen)} />,
-    );
+    this.darkMode();
   }
   switchGroup(group) {
     const links = {
+      settings: {
+        DarkMode: 'DarkMode',
+        SignOut: 'SignOut',
+      },
       misc: {
         CustomHTML: 'HTML',
         Youtube: 'http://youtube.com',
@@ -87,22 +90,65 @@ class HomeScreen extends Component {
       this.injectHtml();
       return;
     }
+    if (url == 'DarkMode') {
+      this.darkMode();
+      return;
+    }
+    if (url == 'SignOut') {
+      this.signOut();
+      return;
+    }
     this.setState({
       url: url,
       html: false,
     });
   }
+  signOut = async () => {
+    await storeValue('@user', null);
+    this.props.changeScreen(
+      <LoginScreen changeScreen={screen => this.props.changeScreen(screen)} />,
+    );
+  };
+  darkMode = async () => {
+    val = await readValue('@darkMode');
+    if (val == null) {
+      await storeValue('@darkMode', false);
+      this.setState({
+        darkMode: false,
+      });
+    } else {
+      storeValue('@darkMode', !this.state.darkMode);
+      this.setState({
+        darkMode: !this.state.darkMode,
+      });
+    }
+    global.darkMode = this.state.darkMode
+    console.log('DM: ' + this.state.darkMode);
+  };
   render() {
     return (
-      <View style={styles.main}>
+      <View
+        style={[
+          styles.main,
+          {backgroundColor: this.state.darkMode ? '#333333' : '#FFFFFF'},
+        ]}>
         <View style={styles.scrollview}>
           <ScrollView>
-            <Text style={styles.header}>{"Hello: " + this.props.username}</Text>
-            <Wrapper childStyle={styles.web} header="WebView">
+            <Text
+              style={[
+                styles.container,
+                {color: this.state.darkMode ? '#FFFFFF' : '#000000'},
+              ]}>
+              {'Hello: ' + this.props.username}
+            </Text>
+            <Wrapper
+              darkMode={this.state.darkMode}
+              childStyle={styles.web}
+              header="WebView">
               <Web html={this.state.html} source={this.state.url} />
             </Wrapper>
-            <Wrapper header="Tic-Tac-Toe">
-              <Board />
+            <Wrapper darkMode={this.state.darkMode} header="Tic-Tac-Toe">
+              <Board darkMode={this.state.darkMode} />
             </Wrapper>
             <TouchableOpacity
               style={styles.button}
@@ -114,6 +160,7 @@ class HomeScreen extends Component {
             data={this.state.data}
             visibility={this.state.sgVisible}
             changeBrowser={url => this.changeUrl(url)}
+            darkMode={this.state.darkMode}
           />
         </View>
         <GroupedNavigation
@@ -124,6 +171,7 @@ class HomeScreen extends Component {
           switchGroup={group => this.switchGroup(group)}
           htmlActive={this.state.html}
           sgActive={this.state.sgVisible}
+          darkMode={this.state.darkMode}
         />
       </View>
     );
@@ -133,8 +181,13 @@ class HomeScreen extends Component {
 const Wrapper = props => {
   return (
     <View>
-      <View style={styles.headerUnderline}>
-        <Text style={styles.header}>{props.header}</Text>
+      <View
+        style={
+          props.darkMode ? styles.headerUnderlineDark : styles.headerUnderline
+        }>
+        <Text style={props.darkMode ? styles.headerDark : styles.header}>
+          {props.header}
+        </Text>
       </View>
       {/* if child style prop is set, use that, */}
       <View
@@ -145,19 +198,32 @@ const Wrapper = props => {
       </View>
     </View>
   );
-};
-
+}
 const styles = StyleSheet.create({
   main: {
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: themes.light.background,
+  },
+  mainDark: {
+    flexDirection: 'column',
+    flex: 1,
+    backgroundColor: themes.dark.background,
   },
   button: {
     height: 30,
     width: 100,
     marginTop: 20,
-    backgroundColor: '#999999',
+    backgroundColor: themes.light.backgroundAccent,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+  },
+  buttonDark: {
+    height: 30,
+    width: 100,
+    marginTop: 20,
+    backgroundColor: themes.dark.backgroundAccent,
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
@@ -168,6 +234,12 @@ const styles = StyleSheet.create({
   headerUnderline: {
     borderBottomWidth: 1,
     marginHorizontal: 70,
+    borderColor: themes.light.text
+  },
+  headerUnderlineDark: {
+    borderBottomWidth: 1,
+    marginHorizontal: 70,
+    borderColor: themes.dark.text,
   },
   container: {
     padding: 20,
@@ -181,11 +253,17 @@ const styles = StyleSheet.create({
     marginTop: 30,
     textAlign: 'center',
     padding: 0,
-    color: '#000000',
+    color: themes.light.text,
+  },
+  headerDark: {
+    fontSize: 40,
+    marginTop: 30,
+    textAlign: 'center',
+    padding: 0,
+    color: themes.dark.text,
   },
   web: {
     marginBottom: 50,
   },
 });
-
 export default HomeScreen;

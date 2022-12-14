@@ -5,8 +5,6 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 GoogleSignin.configure({
-  iosClientId:
-    '964028635680-0drlfn4m4cam51657mobi805hc3n0rh2.apps.googleusercontent.com',
 });
 import {
   StyleSheet,
@@ -16,8 +14,9 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import NavButton from '../Components/NavButton';
-import HomeScreen from './HomeScreen';
+import NavButton from '../../Components/NavButton';
+import HomeScreen from '../Authenticated/HomeScreen';
+import { storeValue, readValue } from '../../Helpers';
 class LoginScreen extends Component {
   constructor() {
     super();
@@ -34,6 +33,7 @@ class LoginScreen extends Component {
       const userInfo = await GoogleSignin.signIn();
       console.log('Done -- ' + userInfo);
       //this.setState({ userInfo });
+      storeValue("@user", userinfo.user)
       this.props.changeScreen(
         <HomeScreen username={userInfo.user.name} changeScreen={screen => this.props.changeScreen(screen)} />,
       );
@@ -61,9 +61,11 @@ class LoginScreen extends Component {
 
     //Just for testing purposes
     if (this.state.username == "TestUser" && this.state.password == "password") {
+      storeValue("@user", {name: this.state.username})
       this.props.changeScreen(
         <HomeScreen username = {this.state.username} changeScreen={screen => this.props.changeScreen(screen)} />,
       );
+      console.log("setting user")
     } else {
       this.setState({
         invalid: true

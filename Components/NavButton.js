@@ -7,15 +7,15 @@ const NavButton = props => {
       onPress={() => {
         props.onChange(props.url);
       }}
-      style={styles.navButton}>
+      style={props.darkMode ? styles.navButtonDark : styles.navButton}>
       {props.icon ? (
         <Icon
           name={props.icon}
           size={30}
-          color={props.active ? '#0b02f7' : '#000000'}
+          color={props.active ? '#0b02f7' : props.darkMode ? '#ffffff' : '#000000'}
         />
       ) : (
-        <Text style={styles.text}>{props.title}</Text>
+        <Text style={props.darkMode ? styles.textDark : styles.text}>{props.title}</Text>
       )}
     </TouchableOpacity>
   );
@@ -28,6 +28,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 30,
   },
+  navButtonDark: {
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#444444',
+    paddingHorizontal: 30,
+  },
   img: {
     height: 60,
     width: 60,
@@ -36,6 +43,9 @@ const styles = StyleSheet.create({
   text: {
     color: '#000000',
   },
+  textDark: {
+    color: "#ffffff"
+  }
 });
 
 /*<Image source={props.file} style={styles.img} />*/

@@ -14,6 +14,7 @@ class GroupedNavigationSub extends Component {
           url={url}
           onChange={url => this.props.changeBrowser(url)}
           key={title}
+          darkMode={this.props.darkMode}
         />,
       );
     }
