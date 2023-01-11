@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, Button, Text, View} from 'react-native';
+import themes from '../Constants';
 const Board = props => {
   const [squares, setSquares] = useState(Array(9).fill(' '));
   const [history, setHistory] = useState(Array());
@@ -53,36 +54,86 @@ const Board = props => {
         squares[a] == squares[c]
       ) {
         return (
-          <Text>{gameOverMessage.replace('#', squares[lines[i][0]])}</Text>
+          <Text
+            style={props.darkMode ? styles.labelTextDark : styles.labelText}>
+            {gameOverMessage.replace('#', squares[lines[i][0]])}
+          </Text>
         );
       }
     }
     for (let i = 0; i < squares.length; i++) {
       if (squares[i] == ' ') {
-        return <Text>{playerTurnMessage.replace('#', xNext ? 'X' : 'O')}</Text>;
+        return (
+          <Text
+            style={props.darkMode ? styles.labelTextDark : styles.labelText}>
+            {playerTurnMessage.replace('#', xNext ? 'X' : 'O')}
+          </Text>
+        );
       }
     }
-    return <Text>{tieMessage}</Text>;
+    return (
+      <Text style={props.darkMode ? styles.labelTextDark : styles.labelText}>
+        {tieMessage}
+      </Text>
+    );
   }
   return (
     <View style={props.darkMode ? styles.boardDark : styles.board}>
       {getStatus()}
       <View style={styles.boardRow}>
-        <Square darkMode={props.darkMode} value={squares[0]} onClick={() => handleClick(0)} />
-        <Square darkMode={props.darkMode} value={squares[1]} onClick={() => handleClick(1)} />
-        <Square darkMode={props.darkMode} value={squares[2]} onClick={() => handleClick(2)} />
+        <Square
+          darkMode={props.darkMode}
+          value={squares[0]}
+          onClick={() => handleClick(0)}
+        />
+        <Square
+          darkMode={props.darkMode}
+          value={squares[1]}
+          onClick={() => handleClick(1)}
+        />
+        <Square
+          darkMode={props.darkMode}
+          value={squares[2]}
+          onClick={() => handleClick(2)}
+        />
       </View>
       <View style={styles.boardRow}>
-        <Square darkMode={props.darkMode} value={squares[3]} onClick={() => handleClick(3)} />
-        <Square darkMode={props.darkMode} value={squares[4]} onClick={() => handleClick(4)} />
-        <Square darkMode={props.darkMode} value={squares[5]} onClick={() => handleClick(5)} />
+        <Square
+          darkMode={props.darkMode}
+          value={squares[3]}
+          onClick={() => handleClick(3)}
+        />
+        <Square
+          darkMode={props.darkMode}
+          value={squares[4]}
+          onClick={() => handleClick(4)}
+        />
+        <Square
+          darkMode={props.darkMode}
+          value={squares[5]}
+          onClick={() => handleClick(5)}
+        />
       </View>
       <View style={styles.boardRow}>
-        <Square darkMode={props.darkMode} value={squares[6]} onClick={() => handleClick(6)} />
-        <Square darkMode={props.darkMode} value={squares[7]} onClick={() => handleClick(7)} />
-        <Square darkMode={props.darkMode} value={squares[8]} onClick={() => handleClick(8)} />
+        <Square
+          darkMode={props.darkMode}
+          value={squares[6]}
+          onClick={() => handleClick(6)}
+        />
+        <Square
+          darkMode={props.darkMode}
+          value={squares[7]}
+          onClick={() => handleClick(7)}
+        />
+        <Square
+          darkMode={props.darkMode}
+          value={squares[8]}
+          onClick={() => handleClick(8)}
+        />
       </View>
-      <Text style={styles.labelText}>{labelMessage}</Text>
+      <Text style={props.darkMode ? styles.labelTextDark : styles.labelText}>
+        {labelMessage}
+      </Text>
       <View style={styles.boardRow}>
         <Button title="Go Back" onPress={() => handleHist(false)} />
         <Button title="Go Forward" onPress={() => handleHist(true)} />
@@ -111,6 +162,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: themes.light.text,
   },
   squareDark: {
     borderWidth: 1,
@@ -118,7 +170,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: "#FFFFFF"
+    borderColor: themes.dark.text,
   },
   container: {
     margin: 50,
@@ -131,13 +183,19 @@ const styles = StyleSheet.create({
   },
   board: {
     alignItems: 'center',
+    color: themes.light.text,
   },
   boardDark: {
     alignItems: 'center',
-    color: "#FFFFFF"
+    color: themes.dark.text,
   },
   labelText: {
     alignSelf: 'center',
+    color: themes.light.text,
+  },
+  labelTextDark: {
+    alignSelf: 'center',
+    color: themes.dark.text,
   },
 });
 

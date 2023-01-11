@@ -16,9 +16,10 @@ class mainApp extends Component {
   isLoggedIn = async () => {
     val = await readValue("@user")
     //is user logged in 
+    console.log(val)
     if (val != null) {
-      console.log("user detected");
-      this.changeScreen(<HomeScreen changeScreen={screen => this.changeScreen(screen)} />)
+      console.log("user detected as: " + val.username);
+      this.changeScreen(<HomeScreen user={val} changeScreen={screen => this.changeScreen(screen)} />)
     } else {
       console.log("user not detected");
     }

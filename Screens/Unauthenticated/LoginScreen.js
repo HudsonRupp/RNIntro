@@ -4,7 +4,9 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import secrets from '../../Secrets';
 GoogleSignin.configure({
+  iosClientId: secrets.googleIosClientId,
 });
 import {
   StyleSheet,
@@ -16,14 +18,16 @@ import {
 } from 'react-native';
 import NavButton from '../../Components/NavButton';
 import HomeScreen from '../Authenticated/HomeScreen';
-import { storeValue, readValue } from '../../Helpers';
+import AgreementScreen from './AgreementScreen';
+import {storeValue, readValue} from '../../Helpers';
+import themes from '../../Constants';
 class LoginScreen extends Component {
   constructor() {
     super();
     this.state = {
       username: '',
       password: '',
-      invalid: false
+      invalid: false,
     };
   }
 
@@ -32,10 +36,12 @@ class LoginScreen extends Component {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       console.log('Done -- ' + userInfo);
-      //this.setState({ userInfo });
-      storeValue("@user", userinfo.user)
+      storeValue('@user', {username: userInfo.user.name});
       this.props.changeScreen(
-        <HomeScreen username={userInfo.user.name} changeScreen={screen => this.props.changeScreen(screen)} />,
+        <HomeScreen
+          user={{username: userInfo.user.name}}
+          changeScreen={screen => this.props.changeScreen(screen)}
+        />,
       );
     } catch (error) {
       console.log(error.code);
@@ -60,15 +66,19 @@ class LoginScreen extends Component {
     */
 
     //Just for testing purposes
-    if (this.state.username == "TestUser" && this.state.password == "password") {
-      storeValue("@user", {name: this.state.username})
+    if (this.state.password == 'password') {
+      const currentUser = {username: this.state.username};
+      await storeValue('@user', currentUser);
+      console.log(await readValue('@user'));
       this.props.changeScreen(
-        <HomeScreen username = {this.state.username} changeScreen={screen => this.props.changeScreen(screen)} />,
+        <AgreementScreen
+          changeScreen={screen => this.props.changeScreen(screen)}
+        />,
       );
       console.log("setting user")
     } else {
       this.setState({
-        invalid: true
+        invalid: true,
       });
     }
   }
@@ -77,7 +87,9 @@ class LoginScreen extends Component {
     return (
       <View style={styles.main}>
         <Text>LOGIN</Text>
-        {this.state.invalid ? <Text style={styles.errorText}>Incorrect Username/Password</Text> : null}
+        {this.state.invalid ? (
+          <Text style={styles.errorText}>Incorrect Username/Password</Text>
+        ) : null}
         <TextInput
           style={styles.textInput}
           placeholder="Username"
@@ -112,7 +124,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 100,
     marginTop: 20,
-    backgroundColor: '#999999',
+    backgroundColor: themes.light.backgroundAccent,
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
@@ -132,8 +144,8 @@ const styles = StyleSheet.create({
     width: 300,
   },
   errorText: {
-    color: 'red'
-  }
+    color: 'red',
+  },
 });
 
 export default LoginScreen;

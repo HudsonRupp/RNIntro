@@ -122,39 +122,29 @@ class HomeScreen extends Component {
         darkMode: !this.state.darkMode,
       });
     }
-    global.darkMode = this.state.darkMode
-    console.log('DM: ' + this.state.darkMode);
   };
   render() {
     return (
-      <View
-        style={[
-          styles.main,
-          {backgroundColor: this.state.darkMode ? '#333333' : '#FFFFFF'},
-        ]}>
+      <View style={this.state.darkMode ? styles.mainDark : styles.main}>
         <View style={styles.scrollview}>
           <ScrollView>
-            <Text
-              style={[
-                styles.container,
-                {color: this.state.darkMode ? '#FFFFFF' : '#000000'},
-              ]}>
-              {'Hello: ' + this.props.username}
-            </Text>
+            <Wrapper
+              darkMode={this.state.darkMode}
+              header={'Hello: ' + this.props.user.username}
+            />
             <Wrapper
               darkMode={this.state.darkMode}
               childStyle={styles.web}
               header="WebView">
-              <Web html={this.state.html} source={this.state.url} />
+              <Web
+                html={this.state.html}
+                darkMode={this.state.darkMode}
+                source={this.state.url}
+              />
             </Wrapper>
             <Wrapper darkMode={this.state.darkMode} header="Tic-Tac-Toe">
               <Board darkMode={this.state.darkMode} />
             </Wrapper>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.signOut()}>
-              <Text>Sign Out</Text>
-            </TouchableOpacity>
           </ScrollView>
           <GroupedNavigationSub
             data={this.state.data}
@@ -198,7 +188,7 @@ const Wrapper = props => {
       </View>
     </View>
   );
-}
+};
 const styles = StyleSheet.create({
   main: {
     flexDirection: 'column',
@@ -234,7 +224,7 @@ const styles = StyleSheet.create({
   headerUnderline: {
     borderBottomWidth: 1,
     marginHorizontal: 70,
-    borderColor: themes.light.text
+    borderColor: themes.light.text,
   },
   headerUnderlineDark: {
     borderBottomWidth: 1,
@@ -247,6 +237,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     margin: 5,
+  },
+  containerDark: {
+    padding: 20,
+    marginTop: 10,
+    textAlign: 'center',
+    alignItems: 'center',
+    margin: 5,
+    color: themes.dark.text,
   },
   header: {
     fontSize: 40,

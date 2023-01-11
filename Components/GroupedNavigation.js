@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, TextInput, View, ScrollView} from 'react-native';
 import NavButton from './NavButton';
+import themes from '../Constants';
 
 const GroupedNavigation = props => {
   const [buttonActive, setButtonActive] = useState(null);
@@ -73,6 +74,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     width: 300,
+    borderColor: themes.light.text,
+    color: themes.light.text,
   },
   textInputDark: {
     paddingTop: 5,
@@ -80,8 +83,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     width: 300,
-    borderColor: "#ffffff",
-    color: "#ffffff"
+    borderColor: themes.dark.text,
+    color: themes.dark.text,
   },
   main: {
     alignItems: 'center',

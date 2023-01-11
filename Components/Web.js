@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {WebView} from 'react-native-webview';
-
+import themes from '../Constants';
 class Web extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +14,12 @@ class Web extends Component {
   render() {
     return (
       <View>
-        <View style={styles.webviewContainer}>
+        <View
+          style={
+            this.props.darkMode
+              ? styles.webviewContainerDark
+              : styles.webviewContainer
+          }>
           <WebView
             onMessage={event => {
               this.handleMessage(event);
@@ -46,6 +51,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     padding: 20,
     marginTop: 10,
+    borderColor: themes.light.text,
+  },
+  webviewContainerDark: {
+    borderWidth: 1,
+    borderRadius: 5,
+    flex: 1,
+    height: 550,
+    marginTop: 20,
+    marginHorizontal: 10,
+    padding: 20,
+    marginTop: 10,
+    borderColor: themes.dark.text,
   },
   groupedNavContainer: {
     alignItems: 'center',
