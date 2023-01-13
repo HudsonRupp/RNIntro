@@ -2,13 +2,14 @@ import React, {Component, useState} from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import HomeScreen from './Screens/Authenticated/HomeScreen';
 import LoginScreen from './Screens/Unauthenticated/LoginScreen';
+import WelcomeScreen from './Screens/Unauthenticated/WelcomeScreen';
 import {storeValue, readValue} from "./Helpers"
 class mainApp extends Component {
   constructor() {
     super();
     this.state = {
       currentScreen: (
-        <LoginScreen changeScreen={screen => this.changeScreen(screen)} />
+        <WelcomeScreen changeScreen={screen => this.changeScreen(screen)} />
       ),
     };
     this.isLoggedIn()

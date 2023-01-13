@@ -1,15 +1,13 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   TouchableOpacity,
-  TextInput,
 } from 'react-native';
 import {storeValue, readValue} from '../../Helpers';
 import NavButton from '../../Components/NavButton';
-import HomeScreen from '../Authenticated/HomeScreen';
+import HomeScreen from './HomeScreen';
 import themes from '../../Constants';
 class AgreementScreen extends Component {
   constructor(props) {

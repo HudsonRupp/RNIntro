@@ -1,10 +1,9 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Board from '../../Components/Board';

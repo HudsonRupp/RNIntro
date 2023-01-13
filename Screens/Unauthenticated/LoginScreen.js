@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -18,9 +18,10 @@ import {
 } from 'react-native';
 import NavButton from '../../Components/NavButton';
 import HomeScreen from '../Authenticated/HomeScreen';
-import AgreementScreen from './AgreementScreen';
+import AgreementScreen from '../Authenticated/AgreementScreen';
 import {storeValue, readValue} from '../../Helpers';
 import themes from '../../Constants';
+import WelcomeScreen from './WelcomeScreen';
 class LoginScreen extends Component {
   constructor() {
     super();
@@ -47,6 +48,13 @@ class LoginScreen extends Component {
       console.log(error.code);
     }
   };
+  goBack() {
+    this.props.changeScreen(
+      <WelcomeScreen
+        changeScreen = {screen => this.props.changeScreen(screen)}
+        />
+    )
+  }
 
   async submit() {
     //external authentication
@@ -85,35 +93,40 @@ class LoginScreen extends Component {
 
   render() {
     return (
-      <View style={styles.main}>
-        <Text>LOGIN</Text>
-        {this.state.invalid ? (
-          <Text style={styles.errorText}>Incorrect Username/Password</Text>
-        ) : null}
-        <TextInput
-          style={styles.textInput}
-          placeholder="Username"
-          autoCorrect={false}
-          autoCapitalize={false}
-          onChangeText={usertext => this.setState({username: usertext})}
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder="Password"
-          secureTextEntry={true}
-          autoCorrect={false}
-          autoCapitalize={false}
-          onChangeText={passtext => this.setState({password: passtext})}
-        />
-        <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
-          <Text>SUBMIT</Text>
+      <View style={{flex: 1}}>
+        <TouchableOpacity style={styles.button} onPress={() => this.goBack()}>
+          <Text>BACK</Text>
         </TouchableOpacity>
-        <GoogleSigninButton
-          style={{width: 192, height: 48}}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={this.signInGoogle}
-        />
+        <View style={styles.main}>
+          <Text style={styles.header}>LOGIN</Text>
+          {this.state.invalid ? (
+            <Text style={styles.errorText}>Incorrect Username/Password</Text>
+          ) : null}
+          <TextInput
+            style={styles.textInput}
+            placeholder="Username"
+            autoCorrect={false}
+            autoCapitalize={false}
+            onChangeText={usertext => this.setState({username: usertext})}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Password"
+            secureTextEntry={true}
+            autoCorrect={false}
+            autoCapitalize={false}
+            onChangeText={passtext => this.setState({password: passtext})}
+          />
+          <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
+            <Text>SUBMIT</Text>
+          </TouchableOpacity>
+          <GoogleSigninButton
+            style={{width: 192, height: 48}}
+            size={GoogleSigninButton.Size.Wide}
+            color={GoogleSigninButton.Color.Dark}
+            onPress={this.signInGoogle}
+          />
+        </View>
       </View>
     );
   }
@@ -123,7 +136,7 @@ const styles = StyleSheet.create({
   button: {
     height: 30,
     width: 100,
-    marginTop: 20,
+    marginTop: 40,
     backgroundColor: themes.light.backgroundAccent,
     justifyContent: 'center',
     alignItems: 'center',
@@ -134,6 +147,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignContent: 'center',
+  },
+  header: {
+    fontSize: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: '#000000',
+    padding: 10,
   },
   textInput: {
     marginTop: 10,
