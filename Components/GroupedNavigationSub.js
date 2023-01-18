@@ -14,12 +14,13 @@ class GroupedNavigationSub extends Component {
           url={url}
           onChange={url => this.props.changeBrowser(url)}
           key={title}
+          darkMode={this.props.darkMode}
         />,
       );
     }
     return (
       <View style={styles.subGroup}>
-        {this.props.visibility && <View>{datalist}</View>}
+        {this.props.visibility ? <View>{datalist}</View> : null}
       </View>
     );
   }

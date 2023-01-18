@@ -2,6 +2,8 @@
 # vim swap files
 *.swp
 
+#Secrets
+Secrets.js
 
 # OSX
 #
