@@ -19,7 +19,6 @@ class AgreementScreen extends Component {
   }
   async submit() {
     var currentUser = await readValue('@user');
-    console.log(currentUser);
     currentUser.agreementCompleted = true;
     storeValue('@user', currentUser);
     this.props.changeScreen(

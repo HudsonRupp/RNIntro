@@ -11,5 +11,8 @@ export default themes = {
         background: "#FFFFFF",
         backgroundAccent: "#DEE4E7",
         text: "#000000"
+    },
+    universal: {
+        link: '#0b02f7'
     }
 }

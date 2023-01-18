@@ -15,7 +15,7 @@ const NavButton = props => {
           size={30}
           color={
             props.active
-              ? '#0b02f7'
+              ? themes.universal.link
               : props.darkMode
               ? themes.dark.text
               : themes.light.text

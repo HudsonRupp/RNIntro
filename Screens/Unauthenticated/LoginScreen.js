@@ -36,7 +36,6 @@ class LoginScreen extends Component {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log('Done -- ' + userInfo);
       storeValue('@user', {username: userInfo.user.name});
       this.props.changeScreen(
         <HomeScreen
@@ -57,33 +56,15 @@ class LoginScreen extends Component {
   }
 
   async submit() {
-    //external authentication
-    /*
-    const resp = await fetch('auth url', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password
-      })
-    });
-    const json = await resp.json()
-    */
 
-    //Just for testing purposes
     if (this.state.password == 'password') {
       const currentUser = {username: this.state.username};
       await storeValue('@user', currentUser);
-      console.log(await readValue('@user'));
       this.props.changeScreen(
         <AgreementScreen
           changeScreen={screen => this.props.changeScreen(screen)}
         />,
       );
-      console.log("setting user")
     } else {
       this.setState({
         invalid: true,
