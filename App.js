@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import HomeScreen from './Screens/Authenticated/HomeScreen';
 import LoginScreen from './Screens/Unauthenticated/LoginScreen';
 import WelcomeScreen from './Screens/Unauthenticated/WelcomeScreen';
+import PrivacyScreen from './Screens/Authenticated/PrivacyScreen';
 import {storeValue, readValue} from "./Helpers"
 class mainApp extends Component {
   constructor() {
@@ -32,6 +33,7 @@ class mainApp extends Component {
     return (
       <>
         {this.state.currentScreen}
+        <PrivacyScreen/>
       </>
     )
   }
