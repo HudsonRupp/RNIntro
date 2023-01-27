@@ -3,12 +3,9 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import NavButton from '../../Components/NavButton';
-import HomeScreen from '../Authenticated/HomeScreen';
 import AgreementScreen from '../Authenticated/AgreementScreen';
 import {storeValue, readValue} from '../../Helpers';
 import themes from '../../Constants';
@@ -22,17 +19,16 @@ class LoginScreen extends Component {
       invalid: false,
     };
   }
-  
+
   goBack() {
     this.props.changeScreen(
       <WelcomeScreen
-        changeScreen = {screen => this.props.changeScreen(screen)}
-        />
-    )
+        changeScreen={screen => this.props.changeScreen(screen)}
+      />,
+    );
   }
 
   async submit() {
-
     if (this.state.password == 'password') {
       const currentUser = {username: this.state.username};
       await storeValue('@user', currentUser);
