@@ -16,18 +16,21 @@ class WelcomeScreen extends Component {
   submitSignUp() {}
 
   render() {
+    const welcomeMessage = "WELCOME"
+    const logInMessage = "Log in"
+    const signUpMessage = "Sign up"
     return (
       <View style={styles.main}>
-        <Text style={styles.header}> WELCOME </Text>
+        <Text style={styles.header}> {welcomeMessage} </Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.submitLogIn()}>
-          <Text>Log in</Text>
+          <Text>{logInMessage}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.submitSignUp()}>
-          <Text>Sign up</Text>
+          <Text>{signUpMessage}</Text>
         </TouchableOpacity>
       </View>
     );

@@ -1,37 +1,18 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {StyleSheet, AppState} from 'react-native';
 import {BlurView, VibrancyView} from '@react-native-community/blur';
+import { useAppState } from '../../Hooks/useAppState';
+const PrivacyScreen = props => {
+  const appState = useAppState()
 
-class PrivacyScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      appstate: AppState.currentState,
-    };
-  }
-
-  componentDidMount() {
-    this.appStateSubscription = AppState.addEventListener(
-      'change',
-      this.handleStateChange,
-    );
-  }
-  componentWillUnmount() {
-    this.appStateSubscription.remove();
-  }
-  handleStateChange = nextState => {
-    this.setState({appstate: nextState});
-  };
-  render() {
-    return this.state.appstate.match(/inactive|background/) ? (
-      <BlurView
-        style={styles.absolute}
-        blurType="light"
-        blurAmount={10}
-        reducedTransparencyFallbackColor="white"
-      />
-    ) : null;
-  }
+  return appState.match(/inactive|background/) ? (
+    <BlurView
+      style={styles.absolute}
+      blurType="light"
+      blurAmount={10}
+      reducedTransparencyFallbackColor="white"
+    />
+  ) : null;
 }
 
 const styles = StyleSheet.create({
