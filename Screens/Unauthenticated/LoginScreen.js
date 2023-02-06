@@ -1,23 +1,11 @@
 import React, {Component} from 'react';
 import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-import secrets from '../../Secrets';
-GoogleSignin.configure({
-  iosClientId: secrets.googleIosClientId,
-});
-import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import NavButton from '../../Components/NavButton';
-import HomeScreen from '../Authenticated/HomeScreen';
 import AgreementScreen from '../Authenticated/AgreementScreen';
 import {storeValue, readValue} from '../../Helpers';
 import themes from '../../Constants';
@@ -32,31 +20,15 @@ class LoginScreen extends Component {
     };
   }
 
-  signInGoogle = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      storeValue('@user', {username: userInfo.user.name});
-      this.props.changeScreen(
-        <HomeScreen
-          user={{username: userInfo.user.name}}
-          changeScreen={screen => this.props.changeScreen(screen)}
-        />,
-      );
-    } catch (error) {
-      console.log(error.code);
-    }
-  };
   goBack() {
     this.props.changeScreen(
       <WelcomeScreen
-        changeScreen = {screen => this.props.changeScreen(screen)}
-        />
-    )
+        changeScreen={screen => this.props.changeScreen(screen)}
+      />,
+    );
   }
 
   async submit() {
-
     if (this.state.password == 'password') {
       const currentUser = {username: this.state.username};
       await storeValue('@user', currentUser);
@@ -101,12 +73,6 @@ class LoginScreen extends Component {
           <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
             <Text>SUBMIT</Text>
           </TouchableOpacity>
-          <GoogleSigninButton
-            style={{width: 192, height: 48}}
-            size={GoogleSigninButton.Size.Wide}
-            color={GoogleSigninButton.Color.Dark}
-            onPress={this.signInGoogle}
-          />
         </View>
       </View>
     );
