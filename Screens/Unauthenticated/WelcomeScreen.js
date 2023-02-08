@@ -16,9 +16,9 @@ class WelcomeScreen extends Component {
   submitSignUp() {}
 
   render() {
-    const welcomeMessage = "WELCOME"
-    const logInMessage = "Log in"
-    const signUpMessage = "Sign up"
+    const welcomeMessage = 'WELCOME';
+    const logInMessage = 'Log in';
+    const signUpMessage = 'Sign up';
     return (
       <View style={styles.main}>
         <Text style={styles.header}> {welcomeMessage} </Text>
