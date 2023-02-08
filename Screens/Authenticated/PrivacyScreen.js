@@ -1,9 +1,9 @@
-import React, {Component, useEffect, useState} from 'react';
-import {StyleSheet, AppState} from 'react-native';
-import {BlurView, VibrancyView} from '@react-native-community/blur';
-import { useAppState } from '../../Hooks/useAppState';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {BlurView} from '@react-native-community/blur';
+import {useAppState} from '../../Hooks/useAppState';
 const PrivacyScreen = props => {
-  const appState = useAppState()
+  const appState = useAppState();
 
   return appState.match(/inactive|background/) ? (
     <BlurView
@@ -13,7 +13,7 @@ const PrivacyScreen = props => {
       reducedTransparencyFallbackColor="white"
     />
   ) : null;
-}
+};
 
 const styles = StyleSheet.create({
   absolute: {

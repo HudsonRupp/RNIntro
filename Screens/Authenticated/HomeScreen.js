@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Board from '../../Components/Board';
 import Web from '../../Components/Web';
 import GroupedNavigation from '../../Components/GroupedNavigation';
@@ -18,7 +17,7 @@ class HomeScreen extends Component {
       sgVisible: false,
       darkMode: false,
     };
-    this.darkMode();
+    this.initDarkMode();
   }
   switchGroup(group) {
     const links = {
@@ -103,7 +102,7 @@ class HomeScreen extends Component {
       <LoginScreen changeScreen={screen => this.props.changeScreen(screen)} />,
     );
   };
-  darkMode = async () => {
+  initDarkMode = async () => {
     val = await readValue('@darkMode');
     if (val == null) {
       await storeValue('@darkMode', false);
@@ -111,11 +110,17 @@ class HomeScreen extends Component {
         darkMode: false,
       });
     } else {
-      storeValue('@darkMode', !this.state.darkMode);
       this.setState({
-        darkMode: !this.state.darkMode,
+        darkMode: val,
       });
     }
+  };
+  darkMode = async () => {
+    val = await readValue('@darkMode');
+    storeValue('@darkMode', !this.state.darkMode);
+    this.setState({
+      darkMode: !this.state.darkMode,
+    });
   };
   render() {
     return (

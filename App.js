@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import HomeScreen from './Screens/Authenticated/HomeScreen';
-import LoginScreen from './Screens/Unauthenticated/LoginScreen';
 import WelcomeScreen from './Screens/Unauthenticated/WelcomeScreen';
 import PrivacyScreen from './Screens/Authenticated/PrivacyScreen';
 import {readValue} from './Helpers';
