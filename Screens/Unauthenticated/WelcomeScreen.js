@@ -1,16 +1,12 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import LoginScreen from './LoginScreen';
-
 class WelcomeScreen extends Component {
   constructor(props) {
     super(props);
   }
 
   submitLogIn() {
-    this.props.changeScreen(
-      <LoginScreen changeScreen={screen => this.props.changeScreen(screen)} />,
-    );
+    this.props.navigation.navigate('LoginScreen')
   }
 
   submitSignUp() {}
@@ -55,7 +51,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 100,
     marginTop: 20,
-    backgroundColor: themes.light.backgroundAccent,
+    backgroundColor: "#FFFFFF",
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',

@@ -1,31 +1,30 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {storeValue, readValue} from '../../Helpers';
-import HomeScreen from './HomeScreen';
-import themes from '../../Constants';
-class AgreementScreen extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      user: {},
-    };
-  }
-  async submit() {
+
+function AgreementScreen ({navigation}) {
+
+  async function submit() {
     var currentUser = await readValue('@user');
     currentUser.agreementCompleted = true;
     storeValue('@user', currentUser);
-    this.props.changeScreen(
-      <HomeScreen
-        user={currentUser}
-        changeScreen={screen => this.props.changeScreen(screen)}
-      />,
-    );
+    navigation.navigate('HomeScreen')
   }
 
-  render() {
-    return (
-      <View style={styles.main}>
+  useEffect(() => {
+    async function checkData() {
+      user = await readValue("@user");
+      if (user.agreementCompleted) {
+        navigation.navigate("HomeScreen")
+      }
+    }
+
+    checkData();
+  })
+
+  return(
+    <View style={styles.main}>
         <Text style={styles.header}>Agreement:</Text>
 
         <Text>
@@ -38,14 +37,12 @@ class AgreementScreen extends Component {
           tristique risus ac lectus vestibulum suscipit. Orci varius natoque
           penatibus et magnis dis parturient montes, nascetur ridiculus mus.
         </Text>
-        <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
+        <TouchableOpacity style={styles.button} onPress={() => submit()}>
           <Text>AGREE</Text>
         </TouchableOpacity>
       </View>
-    );
-  }
+  )
 }
-
 const styles = StyleSheet.create({
   main: {
     flex: 1,
@@ -64,7 +61,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 100,
     marginTop: 20,
-    backgroundColor: themes.light.backgroundAccent,
+    backgroundColor: "#FFFFFF",
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',

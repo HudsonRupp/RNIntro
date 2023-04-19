@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 import {useAppState} from '../../Hooks/useAppState';
-const PrivacyScreen = props => {
+function PrivacyScreen() {
   const appState = useAppState();
 
   return appState.match(/inactive|background/) ? (
