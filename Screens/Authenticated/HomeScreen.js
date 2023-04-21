@@ -15,9 +15,9 @@ function HomeScreen(props) {
             <h1>FORM</h1>
             <br>
             <form id="form" onsubmit="send()">
-                <p>Input 1</p>
+                <p>Username</p>
                 <input type="text" id="username"> <br>
-                <p>Input 2</p>
+                <p>Password</p>
                 <input type="text" id="password"> <br>
                 <input type="file" id="file"> <br>
                 <input type="submit" value="submit">
@@ -31,7 +31,6 @@ function HomeScreen(props) {
             `
 
     return(
-        
         <>
             <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -64,10 +63,7 @@ function HomeScreen(props) {
                 <Tab.Screen name="Settings" component={SettingsScreen} />
             </Tab.Navigator>
         </>
-        
     )
-
-
 }
 
 

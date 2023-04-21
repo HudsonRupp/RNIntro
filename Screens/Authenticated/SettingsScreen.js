@@ -32,9 +32,7 @@ function SettingsScreen(props) {
         {button("Sign out", signOut)}
       </ScrollView>
     );
-  }
-
-
+}
 
 const styles = StyleSheet.create({
     main: {

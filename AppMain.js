@@ -31,7 +31,6 @@ function AppMain() {
         dispatch(logIn());
       }
 
-
       if (theme == "dark") {
         dispatch(dark());
       } else {
@@ -57,7 +56,6 @@ function AppMain() {
               <Stack.Screen name="AgreementScreen" component={AgreementScreen} />
               <Stack.Screen name="HomeScreen" component={HomeScreen}  />
             </>
-            
             
           ) : (
             <>

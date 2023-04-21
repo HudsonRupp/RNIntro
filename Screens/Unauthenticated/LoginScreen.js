@@ -9,6 +9,7 @@ import {
 import {storeValue, readValue} from '../../Helpers';
 import { useSelector, useDispatch } from 'react-redux'
 import { logIn } from '../../store/slices/AuthenticationSlice/index';
+import {themes} from '../../store/slices/ThemeSlice/index';
 
 function LoginScreen({navigation}) {
   const [username, setUsername] = useState('');
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 100,
     marginTop: 40,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: themes.light.background,
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
@@ -86,8 +87,6 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: '#000000',
     padding: 10,
   },
   textInput: {

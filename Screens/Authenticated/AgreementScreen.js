@@ -1,7 +1,7 @@
 import React, {Component, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {storeValue, readValue} from '../../Helpers';
-
+import {themes} from '../../store/slices/ThemeSlice/index'
 
 function AgreementScreen ({navigation}) {
 
@@ -53,15 +53,13 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: '#000000',
     padding: 10,
   },
   button: {
     height: 30,
     width: 100,
     marginTop: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: themes.light.background,
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',

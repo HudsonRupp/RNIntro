@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {storeValue} from "../../../Helpers"
 
-const themes = {
+export const themes = {
     dark: {
         name: "dark",
         background: "#36393F",

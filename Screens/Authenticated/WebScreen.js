@@ -11,8 +11,6 @@ function WebScreen({route, navigation}) {
       Alert.alert(m.nativeEvent.data)
     }
 
-
-
     return(
         <>
         <WebView

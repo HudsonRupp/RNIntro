@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {themes} from '../../store/slices/ThemeSlice/index'
 class WelcomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 100,
     marginTop: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: themes.light.background,
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
