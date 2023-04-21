@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,53 +6,43 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import AgreementScreen from '../Authenticated/AgreementScreen';
 import {storeValue, readValue} from '../../Helpers';
-import themes from '../../Constants';
-import WelcomeScreen from './WelcomeScreen';
-class LoginScreen extends Component {
-  constructor() {
-    super();
-    this.state = {
-      username: '',
-      password: '',
-      invalid: false,
-    };
+import { useSelector, useDispatch } from 'react-redux'
+import { logIn } from '../../store/slices/AuthenticationSlice/index';
+import {themes} from '../../store/slices/ThemeSlice/index';
+
+function LoginScreen({navigation}) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [invalid, setInvalid] = useState(false);
+
+  const loggedIn = useSelector(state => state.authentication.authStatus);
+  const dispatch = useDispatch();
+
+
+  function goBack() {
+    navigation.navigate('WelcomeScreen')
   }
 
-  goBack() {
-    this.props.changeScreen(
-      <WelcomeScreen
-        changeScreen={screen => this.props.changeScreen(screen)}
-      />,
-    );
-  }
-
-  async submit() {
-    if (this.state.password == 'password') {
-      const currentUser = {username: this.state.username};
+  async function submit() {
+    if (password == 'password') {
+      const currentUser = {username: username};
       await storeValue('@user', currentUser);
-      this.props.changeScreen(
-        <AgreementScreen
-          changeScreen={screen => this.props.changeScreen(screen)}
-        />,
-      );
+      dispatch(logIn());
     } else {
-      this.setState({
-        invalid: true,
-      });
+      setInvalid(true);
     }
   }
 
-  render() {
-    return (
-      <View style={{flex: 1}}>
-        <TouchableOpacity style={styles.button} onPress={() => this.goBack()}>
+
+  return(
+    <View style={{flex: 1}}>
+        <TouchableOpacity style={styles.button} onPress={goBack}>
           <Text>BACK</Text>
         </TouchableOpacity>
         <View style={styles.main}>
           <Text style={styles.header}>LOGIN</Text>
-          {this.state.invalid ? (
+          {invalid ? (
             <Text style={styles.errorText}>Incorrect Username/Password</Text>
           ) : null}
           <TextInput
@@ -60,7 +50,7 @@ class LoginScreen extends Component {
             placeholder="Username"
             autoCorrect={false}
             autoCapitalize={false}
-            onChangeText={usertext => this.setState({username: usertext})}
+            onChangeText={usertext => setUsername(usertext)}
           />
           <TextInput
             style={styles.textInput}
@@ -68,15 +58,15 @@ class LoginScreen extends Component {
             secureTextEntry={true}
             autoCorrect={false}
             autoCapitalize={false}
-            onChangeText={passtext => this.setState({password: passtext})}
+            onChangeText={passtext => setPassword(passtext)}
           />
-          <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
+          <TouchableOpacity style={styles.button} onPress={() => submit()}>
             <Text>SUBMIT</Text>
           </TouchableOpacity>
         </View>
       </View>
-    );
-  }
+  )
+
 }
 
 const styles = StyleSheet.create({
@@ -84,7 +74,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 100,
     marginTop: 40,
-    backgroundColor: themes.light.backgroundAccent,
+    backgroundColor: themes.light.background,
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
@@ -97,8 +87,6 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: '#000000',
     padding: 10,
   },
   textInput: {

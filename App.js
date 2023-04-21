@@ -1,52 +1,17 @@
-import React, {Component} from 'react';
-import HomeScreen from './Screens/Authenticated/HomeScreen';
-import WelcomeScreen from './Screens/Unauthenticated/WelcomeScreen';
-import PrivacyScreen from './Screens/Authenticated/PrivacyScreen';
-import {readValue} from './Helpers';
-import AgreementScreen from './Screens/Authenticated/AgreementScreen';
+import { Provider } from "react-redux";
+import store from "./store/store";
+import React from  'react';
 
-const authScreens = [<AgreementScreen />, <HomeScreen />];
-class mainApp extends Component {
-  constructor() {
-    super();
-    this.state = {
-      currentScreen: (
-        <WelcomeScreen changeScreen={screen => this.changeScreen(screen)} />
-      ),
-    };
-    this.isLoggedIn();
-  }
-  isLoggedIn = async () => {
-    val = await readValue('@user');
-    //is user logged in
-    if (val != null) {
-      this.changeScreen(
-        <HomeScreen
-          user={val}
-          changeScreen={screen => this.changeScreen(screen)}
-        />,
-      );
-    } else {
-    }
-  };
-  changeScreen(screen) {
-    this.setState({
-      currentScreen: screen,
-    });
-  }
+import AppMain from "./AppMain";
 
+class App extends React.Component {
   render() {
     return (
-      <>
-        {this.state.currentScreen}
-        {authScreens.find(
-          scrn => scrn.type == this.state.currentScreen.type,
-        ) ? (
-          <PrivacyScreen />
-        ) : null}
-      </>
+      <Provider store={store}>
+        <AppMain />
+      </Provider>
     );
   }
 }
 
-export default mainApp;
+export default App;
